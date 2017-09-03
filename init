@@ -1,0 +1,42 @@
+#!/usr/bin/env php
+<?php
+
+$dir = dirname(__FILE__);
+
+$env = getenv('YII_ENV');
+
+if (isset($argv[1])) {
+    $env = $argv[1];
+}
+
+$env = trim($env);
+
+if (!in_array($env, array('local', 'dev', 'test', 'demo', 'prod'))) {
+    echo "Usage: init local|dev|test|demo|prod\n";
+    exit(1);
+}
+
+function doCopy($source, $dest) {
+    echo sprintf('复制 %s 到 %s' . PHP_EOL, $source, $dest);
+    copy($source, $dest);
+}
+
+function doChmod($filename, $mode) {
+    echo sprintf('修改文件 %s 权限为 %s' . PHP_EOL, $filename, $mode);
+    chmod($filename, $mode);
+}
+
+doCopy("${dir}/environments/${env}/web-local.php", "${dir}/config/web-local.php");
+doCopy("${dir}/environments/${env}/console-local.php", "${dir}/config/console-local.php");
+doCopy("${dir}/environments/${env}/common-local.php", "${dir}/config/common-local.php");
+doCopy("${dir}/environments/${env}/params-local.php", "${dir}/config/params-local.php");
+doCopy("${dir}/environments/${env}/index.php", "${dir}/web/index.php");
+doCopy("${dir}/environments/${env}/yii", "${dir}/yii");
+chmod("${dir}/yii", 0755);
+
+doChmod("${dir}/yii", 0755);
+doChmod("${dir}/runtime", 0777);
+doChmod("${dir}/web/assets", 0777);
+
+echo "Init environment ${env} success.\n";
+exit(0);

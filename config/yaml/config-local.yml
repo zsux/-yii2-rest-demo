@@ -1,0 +1,32 @@
+CACHE_PATH : /data/logs/git/cache/
+
+URL_ZIPKIN : http://service.local.koudailc.com
+
+URL_HTTP_API :
+  user: http://service.local.koudailc.com
+
+DB_MYSQL :
+  default: &default
+    database : jsqb
+    type : mysql
+    host : dev.kdqugou.com
+    port : 3307
+    user : jsqb_user
+    password : jsqb_user
+    charset : utf8
+    tablePrefix: tb_
+    timeout: 3
+
+  rcm_ma :
+    <<: *default
+    database : rcm_ma
+
+DB_REDIS :
+   host : 127.0.0.1
+   port : 6379
+   auth : ""
+
+DB_MEMCACHE :
+   default: &default
+   host : 127.0.0.1
+   port : 11211
